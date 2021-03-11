@@ -1,0 +1,1 @@
+﻿--DBCC CHECKIDENT ('Pro.Users', RESEED, 0)
