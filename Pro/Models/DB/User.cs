@@ -7,6 +7,11 @@ namespace Pro.Models.DB
 {
     public partial class User
     {
+        public User()
+        {
+            ArchivalEmailAddresses = new HashSet<ArchivalEmailAddress>();
+        }
+
         public int Id { get; set; }
         public int PersonId { get; set; }
         public int UserTypeId { get; set; }
@@ -18,5 +23,7 @@ namespace Pro.Models.DB
         public string UserHash { get; set; }
         public string ControlHash { get; set; }
         public bool IsChangingPassword { get; set; }
+
+        public virtual ICollection<ArchivalEmailAddress> ArchivalEmailAddresses { get; set; }
     }
 }

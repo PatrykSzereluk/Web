@@ -18,7 +18,7 @@ namespace Pro.Helpers
             return true;
         }
 
-        public static bool HasValidCharacterEmail(this string email)
+        public static bool HasValidEmailAddress(this string email)
         {
             try
             {

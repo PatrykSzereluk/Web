@@ -89,6 +89,7 @@ namespace Pro.Services.UserService
 
             return await ChangePassword(user, newPassword);
         }
+
         public async Task<bool> RemindPasswordFirstStep(string loginOrEmail)
         {
             var user = await GetUserByLoginOrEmail(loginOrEmail);
@@ -124,10 +125,49 @@ namespace Pro.Services.UserService
             return await _context.Users.FirstOrDefaultAsync(t => t.Email == loginOrEmail || t.Login == loginOrEmail);
         }
 
-        public async Task<User> GetUserById(int id)
+        public async Task<User> GetUserByIdAndUserHash(int id, string userHash)
         {
             return await _context.Users.FirstOrDefaultAsync(t => t.Id == id);
         }
 
+        public async Task<bool> ChangeEmailAddress(ChangeEmailAddressRequestModel changeEmailAddressRequestModel)
+        {
+            if (!changeEmailAddressRequestModel.EmailAddress.HasValidEmailAddress())
+                return false;
+
+            var user = await GetUserByIdAndUserHash(changeEmailAddressRequestModel.Id, changeEmailAddressRequestModel.UserHash);
+
+            if (user == null)
+                return false;
+
+            var currentUserEmails = await
+                _context.Users.AnyAsync(t => t.Email == changeEmailAddressRequestModel.EmailAddress);
+
+            if (currentUserEmails)
+                return false;
+
+            var isArchival = await 
+                _context.ArchivalEmailAddresses.AnyAsync(t => t.EmailAddress == changeEmailAddressRequestModel.EmailAddress);
+
+            if (isArchival)
+                return false;
+
+            var addResult = await _context.ArchivalEmailAddresses.AddAsync(new ArchivalEmailAddress()
+                {EmailAddress = user.Email, UserId = user.Id});
+
+            if (addResult.State != EntityState.Added)
+                return false;
+
+            user.Email = changeEmailAddressRequestModel.EmailAddress;
+
+            var updateResult = _context.Users.Update(user);
+
+            if (updateResult.State != EntityState.Modified)
+                return false;
+
+            await _context.SaveChangesAsync();
+
+            return true;
+        }
     }
 }

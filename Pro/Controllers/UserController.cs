@@ -36,5 +36,12 @@ namespace Pro.Controllers
         {
             return await _userService.RemindPasswordSecondStep(remindPasswordSecondStepRequestModel);
         }
+
+        [HttpPost]
+        [Route(nameof(ChangeEmailAddress))]
+        public async Task<bool> ChangeEmailAddress(ChangeEmailAddressRequestModel changeEmailAddressRequestModel)
+        {
+            return await _userService.ChangeEmailAddress(changeEmailAddressRequestModel);
+        }
     }
 }

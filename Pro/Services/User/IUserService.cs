@@ -10,6 +10,7 @@
         Task<User> GetUserByLoginOrEmail(string loginOrEmail, bool isLogin = false);
         Task<bool> RemindPasswordFirstStep(string loginOrEmail);
         Task<bool> RemindPasswordSecondStep(RemindPasswordSecondStepRequestModel remindPasswordSecondStepRequestModel);
-        Task<User> GetUserById(int id);
+        Task<User> GetUserByIdAndUserHash(int id, string userHash);
+        Task<bool> ChangeEmailAddress(ChangeEmailAddressRequestModel changeEmailAddressRequestModel);
     }
 }

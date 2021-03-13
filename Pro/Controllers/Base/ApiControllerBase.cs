@@ -9,4 +9,4 @@ namespace Pro
     }
 }
 //  Scaffold-DbContext "Server=.;Database=Pro;Trusted_Connection=True;" Microsoft.EntityFrameworkCore.SqlServer -OutputDir Models/DB 
-//  Scaffold-DbContext "Server=.;Database=Pro;Trusted_Connection=True;" Microsoft.EntityFrameworkCore.SqlServer -OutputDir Models/DB -context GameDBContext -Project Pro -force
+//  Scaffold-DbContext "Server=.;Database=Pro;Trusted_Connection=True;" Microsoft.EntityFrameworkCore.SqlServer -OutputDir Models/DB -context ProContext -Project Pro -force

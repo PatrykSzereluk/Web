@@ -8,7 +8,6 @@ namespace Pro.Models.User
     public class RemindPasswordSecondStepRequestModel : BaseRequestModel
     {
         public string NewPassword { get; set; }
-        public string UserHash { get; set; }
         public string ControlHash { get; set; }
     }
 }

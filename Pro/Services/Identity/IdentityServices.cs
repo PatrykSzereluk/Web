@@ -62,7 +62,7 @@ namespace Pro.Services.Identity
             //check nip
 
             if (!registerRequestModel.Login.HasOnlyDigitOrLetter()
-               || !registerRequestModel.Email.HasValidCharacterEmail()
+               || !registerRequestModel.Email.HasValidEmailAddress()
                || !registerRequestModel.Password.HasValidCharacterPassword())
                 return new RegisterResponseModel() { StatusCode = ResponseStatusCode.Failed };
 
