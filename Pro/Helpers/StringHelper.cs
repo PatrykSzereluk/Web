@@ -1,4 +1,6 @@
-﻿namespace Pro.Helpers
+﻿using System.Linq;
+
+namespace Pro.Helpers
 {
     using System;
     using System.Net.Mail;
@@ -43,5 +45,18 @@
             }
             return false;
         }
+
+        public static string RandomString(this string @string, bool withSpecialCharacters = true, int count = 20)
+        {
+            string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+
+            if (withSpecialCharacters)
+                chars += ")!(@*#$&%^{][}\\|\'\";:><,.?";
+
+            var random = new Random();
+
+            return new string(Enumerable.Repeat(chars, count).Select(t => t[random.Next(t.Length)]).ToArray());
+        }
+
     }
 }

@@ -106,7 +106,6 @@ namespace Pro.Services.Identity
 
             var emailResult = await _emailNotificationService.SendRegisterEmail(newUser);
 
-
             if (!emailResult)
             {
                 _context.Users.Remove(newUser);

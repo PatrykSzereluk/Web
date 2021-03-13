@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace Pro.Models.Const
+﻿namespace Pro.Models.Const
 {
     public static class EmailParameters
     {
@@ -12,6 +7,7 @@ namespace Pro.Models.Const
         public const string AddressSite = "r-AddressSite";
         public const string UserHash = "r-UserHash";
         public const string ControlHash = "r-ControlHash";
+        public const string RandomString = "r-RandomString";
     }
 
     public static class EmailTemplates

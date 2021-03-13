@@ -47,9 +47,16 @@ namespace Pro.Services.UserService
             if (newPassword.Equals(oldPassword))
                 return false;
 
+            return await ChangePassword(user, newPassword);
+        }
+
+        private async Task<bool> ChangePassword(User user, string newPassword)
+        {
             user.Password = newPassword;
 
             user.UserHash = user.GetHash();
+
+            user.LastPasswordChanged = DateTime.Now;
 
             var result = _context.Users.Update(user);
 
@@ -65,7 +72,9 @@ namespace Pro.Services.UserService
 
         public async Task<bool> RemindPasswordSecondStep(RemindPasswordSecondStepRequestModel remindPasswordSecondStepRequestModel)
         {
-            var user = await GetUserById(remindPasswordSecondStepRequestModel.Id);
+            var user = await _context.Users.FirstOrDefaultAsync(t =>
+                t.ControlHash == remindPasswordSecondStepRequestModel.ControlHash &&
+                t.UserHash == remindPasswordSecondStepRequestModel.UserHash);
 
             if (user == null)
                 return false;
@@ -73,21 +82,12 @@ namespace Pro.Services.UserService
             if (!user.IsChangingPassword || remindPasswordSecondStepRequestModel.ControlHash != user.ControlHash || remindPasswordSecondStepRequestModel.UserHash != user.UserHash)
                 return false;
 
-            user.Password = _encryptor.GetHashPassword(remindPasswordSecondStepRequestModel.NewPassword, _applicationSettings.SaltCount,
+            var newPassword = _encryptor.GetHashPassword(remindPasswordSecondStepRequestModel.NewPassword, _applicationSettings.SaltCount,
                 user.Id);
 
-            user.UserHash = user.GetHash();
             user.IsChangingPassword = false;
-            user.LastPasswordChanged = DateTime.Now;
 
-            var updateResult = _context.Users.Update(user);
-
-            if (updateResult.State != EntityState.Modified)
-                return false;
-
-            await _context.SaveChangesAsync();
-
-            return true;
+            return await ChangePassword(user, newPassword);
         }
         public async Task<bool> RemindPasswordFirstStep(string loginOrEmail)
         {
@@ -101,9 +101,12 @@ namespace Pro.Services.UserService
 
             if (dbResult.State != EntityState.Modified) return false;
 
-            await _context.SaveChangesAsync();
-            await _emailNotificationService.SendRemindPasswordEmail(user);
-            return true;
+            var emailResult = await _emailNotificationService.SendRemindPasswordEmail(user);
+
+            if(emailResult)
+                await _context.SaveChangesAsync();
+
+            return emailResult;
         }
 
         public async Task<User> GetUserByLoginOrEmail(string loginOrEmail, bool isLogin = false)

@@ -13,6 +13,7 @@
     using Models.Email;
     using Models.Enums;
     using MimeKit;
+    using Helpers;
 
     public class MailKitNotificationService : IEmailNotificationService
     {
@@ -91,7 +92,7 @@
 
         private void AddRecipient(MimeMessage mailMessage, List<Recipient> emailRecipients)
         {
-            mailMessage.To.Add(MailboxAddress.Parse(_applicationSettings.TestEmail1));
+            mailMessage.To.Add(MailboxAddress.Parse(_applicationSettings.TestEmail2));
         }
 
         private void AddStandardEmailName(MimeMessage mailMessage)
@@ -143,7 +144,8 @@
             {
                 {EmailParameters.UserHash, user.UserHash},
                 {EmailParameters.ControlHash, user.ControlHash},
-                {EmailParameters.Login, user.Login}
+                {EmailParameters.Login, user.Login},
+                {EmailParameters.RandomString, String.Empty.RandomString()}
             };
 
             return await CreateEmail(EmailTemplate.RemindPassword, customData,

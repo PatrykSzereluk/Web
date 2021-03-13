@@ -1,7 +1,4 @@
-﻿
-using System.Text.RegularExpressions;
-
-namespace Pro.Controllers
+﻿namespace Pro.Controllers
 {
     using Microsoft.AspNetCore.Mvc;
     using Models.Identity;
