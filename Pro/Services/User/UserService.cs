@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Microsoft.AspNetCore.Authorization;
 using Pro.Models;
 using Pro.Models.Enums;
 using Pro.Services.Email;

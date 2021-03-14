@@ -1,4 +1,8 @@
 ﻿
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
+using Microsoft.IdentityModel.Tokens;
 using Pro.Services.UserService;
 
 namespace Pro.Services.Identity
@@ -37,24 +41,43 @@ namespace Pro.Services.Identity
 
             if (user == null) return new LoginResponseModel() { Id = -1, StatusCode = ResponseStatusCode.Failed };
 
+            //todo emailconfirmation
+
             var fullPassword = _encryptor.GetHashPassword(loginRequestModel.Password, _applicationSettings.SaltCount, user.Id);
 
-            if (user.Password.Equals(fullPassword))
+            if (!user.Password.Equals(fullPassword))
+                return new LoginResponseModel() { StatusCode = ResponseStatusCode.Failed };
+
+            ResponseStatusCode statusCode = ResponseStatusCode.Success;
+
+            if (user.CheckPassword && user.LastPasswordChanged.HasValue)
             {
-                if (user.CheckPassword && user.LastPasswordChanged.HasValue)
+                var lastPasswordChanged = user.LastPasswordChanged.Value;
+
+                if (lastPasswordChanged.AddDays(90) >= DateTime.Now)
                 {
-                    var lastPasswordChanged = user.LastPasswordChanged.Value;
-
-                    if (lastPasswordChanged.AddDays(90) >= DateTime.Now)
-                    {
-                        return new LoginResponseModel() { Id = user.Id, StatusCode = ResponseStatusCode.PendingForChangePassword };
-                    }
+                    statusCode = ResponseStatusCode.PendingForChangePassword;
                 }
-
-                return new LoginResponseModel() { StatusCode = ResponseStatusCode.Success, Id = user.Id };
             }
 
-            return new LoginResponseModel() { StatusCode = ResponseStatusCode.Failed };
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var key = Encoding.ASCII.GetBytes(_applicationSettings.Secret);
+
+            var tokenDescriptor = new SecurityTokenDescriptor()
+            {
+                Subject = new ClaimsIdentity(new Claim[]
+                {
+                    new(ClaimTypes.Name, user.Id.ToString()),
+                    new(ClaimTypes.Role, "Admin")
+                }),
+                Expires = DateTime.UtcNow.AddHours(1),
+                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
+            };
+
+            var token = tokenHandler.CreateToken(tokenDescriptor);
+            var encryptToken = tokenHandler.WriteToken(token);
+
+            return new LoginResponseModel() { StatusCode = statusCode, Id = user.Id, Token = encryptToken};
         }
 
         public async Task<RegisterResponseModel> RegisterUser(RegisterRequestModel registerRequestModel)

@@ -2,7 +2,7 @@
 {
     using System.Threading.Tasks;
     using Models.User;
-    using Pro.Models.DB;
+    using Models.DB;
 
     public interface IUserService
     {

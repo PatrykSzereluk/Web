@@ -1,11 +1,12 @@
 ﻿using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Pro.Models;
 using Pro.Models.User;
 using Pro.Services.UserService;
 
 namespace Pro.Controllers
 {
+    [Authorize]
     public class UserController : ApiControllerBase
     {
 
