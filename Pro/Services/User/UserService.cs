@@ -26,6 +26,11 @@
             _emailNotificationService = emailNotificationService;
         }
 
+        public async Task<User> GetUserById(int id)
+        {
+            return await _context.Users.FirstOrDefaultAsync(t => t.Id == id);
+        }
+
         public async Task<bool> ChangePasswordWithOldPassword(ChangePasswordRequestModel changePasswordRequestModel)
         {
 

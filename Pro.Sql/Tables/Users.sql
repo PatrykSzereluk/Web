@@ -16,7 +16,9 @@ CREATE TABLE [Pro].[Users](
 	[UserHash] [varchar](max) NOT NULL,
 	[ControlHash] [varchar](max) NOT NULL,
 	[IsChangingPassword] [bit] NOT NULL,
-	[EmailConfirmed] [bit] NOT NULL
+	[EmailConfirmed] [bit] NOT NULL,
+	[RoleType] [smallint] NOT NULL,
+	[Block] [bit] NOT NULL
  CONSTRAINT [PK_Users] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC

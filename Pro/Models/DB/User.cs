@@ -10,6 +10,7 @@ namespace Pro.Models.DB
         public User()
         {
             ArchivalEmailAddresses = new HashSet<ArchivalEmailAddress>();
+            Bans = new HashSet<Ban>();
         }
 
         public int Id { get; set; }
@@ -24,7 +25,10 @@ namespace Pro.Models.DB
         public string ControlHash { get; set; }
         public bool IsChangingPassword { get; set; }
         public bool EmailConfirmed { get; set; }
+        public short RoleType { get; set; }
+        public bool Block { get; set; }
 
         public virtual ICollection<ArchivalEmailAddress> ArchivalEmailAddresses { get; set; }
+        public virtual ICollection<Ban> Bans { get; set; }
     }
 }

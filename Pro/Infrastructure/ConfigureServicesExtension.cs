@@ -7,6 +7,7 @@
     using Services.Claims;
     using Services.User;
     using Services.UserService;
+    using Pro.Services.Ban;
 
     public static class ConfigureServicesExtension
     {
@@ -15,6 +16,7 @@
             serviceCollection
                 .AddTransient<IIdentityService, IdentityServices>()
                 .AddTransient<IClaimsService, ClaimsServices>()
+                .AddTransient<IBanService, BanService>()
                 .AddTransient<IUserService, UserService>()
                 .AddTransient<IEncryptor, Encryptor>()
                 .AddTransient<IEmailNotificationService, MailKitNotificationService>();

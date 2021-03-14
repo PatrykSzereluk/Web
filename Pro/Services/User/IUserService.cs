@@ -11,6 +11,7 @@
         Task<bool> RemindPasswordFirstStep(string loginOrEmail);
         Task<bool> RemindPasswordSecondStep(RemindPasswordSecondStepRequestModel remindPasswordSecondStepRequestModel);
         Task<User> GetUserByIdAndUserHash(int id, string userHash);
+        Task<User> GetUserById(int id);
         Task<bool> ChangeEmailAddress(ChangeEmailAddressRequestModel changeEmailAddressRequestModel);
         Task<bool> ConfirmUserEmail(EmailConfirmRequestModel emailConfirmRequestModel);
     }

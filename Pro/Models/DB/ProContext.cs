@@ -18,6 +18,7 @@ namespace Pro.Models.DB
         }
 
         public virtual DbSet<ArchivalEmailAddress> ArchivalEmailAddresses { get; set; }
+        public virtual DbSet<Ban> Bans { get; set; }
         public virtual DbSet<User> Users { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -38,6 +39,23 @@ namespace Pro.Models.DB
                     .HasForeignKey(d => d.UserId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_ArchivalEmailAddresses_Users");
+            });
+
+            modelBuilder.Entity<Ban>(entity =>
+            {
+                entity.ToTable("Bans", "Pro");
+
+                entity.Property(e => e.Description)
+                    .IsRequired()
+                    .HasMaxLength(255);
+
+                entity.Property(e => e.UserId).HasColumnName("UserID");
+
+                entity.HasOne(d => d.User)
+                    .WithMany(p => p.Bans)
+                    .HasForeignKey(d => d.UserId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Bans_Users");
             });
 
             modelBuilder.Entity<User>(entity =>

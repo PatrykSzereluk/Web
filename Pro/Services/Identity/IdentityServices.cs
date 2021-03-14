@@ -1,11 +1,4 @@
-﻿
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using System.Text;
-using Microsoft.IdentityModel.Tokens;
-using Pro.Services.UserService;
-
-namespace Pro.Services.Identity
+﻿namespace Pro.Services.Identity
 {
     using Microsoft.EntityFrameworkCore;
     using Models.DB;
@@ -17,6 +10,11 @@ namespace Pro.Services.Identity
     using Models.Identity;
     using Email;
     using Helpers;
+    using System.IdentityModel.Tokens.Jwt;
+    using System.Security.Claims;
+    using System.Text;
+    using Microsoft.IdentityModel.Tokens;
+    using Pro.Services.UserService;
 
     public class IdentityServices : IIdentityService
     {
@@ -40,6 +38,8 @@ namespace Pro.Services.Identity
             User user = await _userService.GetUserByLoginOrEmail(loginRequestModel.LoginOrEmail, true);
 
             if (user == null) return new LoginResponseModel() { Id = -1, StatusCode = ResponseStatusCode.Failed };
+
+            if (user.Block) return new LoginResponseModel() {Id = -1, StatusCode = ResponseStatusCode.BlockAccount };
 
             if (!user.EmailConfirmed)
                 return new LoginResponseModel() {Id = -1, StatusCode = ResponseStatusCode.PendingForConfirmEmail};
@@ -69,7 +69,7 @@ namespace Pro.Services.Identity
                 Subject = new ClaimsIdentity(new Claim[]
                 {
                     new(ClaimTypes.Name, user.Id.ToString()),
-                    new(ClaimTypes.Role, "Admin")
+                    new(ClaimTypes.Role, Enum.GetName(typeof(RoleType), user.RoleType) ?? "None")
                 }),
                 Expires = DateTime.UtcNow.AddHours(1),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
