@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using Microsoft.AspNetCore.Authorization;
-using Pro.Models;
-using Pro.Models.Enums;
-using Pro.Services.Email;
-
-namespace Pro.Services.UserService
+﻿namespace Pro.Services.User
 {
+    using System;
+    using Email;
+    using Pro.Services.UserService;
     using System.Threading.Tasks;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Options;
@@ -160,6 +156,27 @@ namespace Pro.Services.UserService
                 return false;
 
             user.Email = changeEmailAddressRequestModel.EmailAddress;
+
+            var updateResult = _context.Users.Update(user);
+
+            if (updateResult.State != EntityState.Modified)
+                return false;
+
+            await _context.SaveChangesAsync();
+
+            return true;
+        }
+
+        public async Task<bool> ConfirmUserEmail(EmailConfirmRequestModel emailConfirmRequestModel)
+        {
+            var user = await _context.Users.FirstOrDefaultAsync(t =>
+                t.ControlHash == emailConfirmRequestModel.ControlHash &&
+                t.UserHash == emailConfirmRequestModel.UserHash);
+
+            if (user == null)
+                return false;
+
+            user.EmailConfirmed = true;
 
             var updateResult = _context.Users.Update(user);
 

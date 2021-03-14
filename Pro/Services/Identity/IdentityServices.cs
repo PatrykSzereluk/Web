@@ -41,7 +41,8 @@ namespace Pro.Services.Identity
 
             if (user == null) return new LoginResponseModel() { Id = -1, StatusCode = ResponseStatusCode.Failed };
 
-            //todo emailconfirmation
+            if (!user.EmailConfirmed)
+                return new LoginResponseModel() {Id = -1, StatusCode = ResponseStatusCode.PendingForConfirmEmail};
 
             var fullPassword = _encryptor.GetHashPassword(loginRequestModel.Password, _applicationSettings.SaltCount, user.Id);
 
@@ -102,7 +103,8 @@ namespace Pro.Services.Identity
                 CheckPassword = false,
                 LastPasswordChanged = DateTime.Now,
                 UserTypeId = 1,
-                IsChangingPassword = false
+                IsChangingPassword = false,
+                EmailConfirmed = false
             };
 
             var insertResult = await _context.Users.AddAsync(

@@ -23,6 +23,7 @@ namespace Pro.Models.DB
         public string UserHash { get; set; }
         public string ControlHash { get; set; }
         public bool IsChangingPassword { get; set; }
+        public bool EmailConfirmed { get; set; }
 
         public virtual ICollection<ArchivalEmailAddress> ArchivalEmailAddresses { get; set; }
     }

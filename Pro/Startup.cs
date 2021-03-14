@@ -61,6 +61,8 @@ namespace Pro
                     };
                 });
 
+            services.AddHttpContextAccessor();
+
             services.AddControllers();
 
             services.AddSwaggerGen(c =>
