@@ -1,27 +1,26 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Security.Claims;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Pro.Models.User;
-using Pro.Services.Claims;
-using Pro.Services.UserService;
+﻿using Microsoft.AspNetCore.Http;
+using Pro.Services.File;
 
 namespace Pro.Controllers
 {
-    
+    using System.Threading.Tasks;
+    using Microsoft.AspNetCore.Authorization;
+    using Microsoft.AspNetCore.Mvc;
+    using Models.User;
+    using Services.Claims;
+    using Services.UserService;
+
     public class UserController : ApiControllerBase
     {
-
         private readonly IUserService _userService;
         private readonly IClaimsService _claimsService;
+        private readonly IFileService _fileService;
 
-        public UserController(IUserService userService, IClaimsService claimsService)
+        public UserController(IUserService userService, IClaimsService claimsService, IFileService fileService)
         {
             _userService = userService;
             _claimsService = claimsService;
+            _fileService = fileService;
         }
 
         [Authorize]
@@ -65,6 +64,18 @@ namespace Pro.Controllers
         public async Task<bool> ConfirmEmail(EmailConfirmRequestModel emailConfirmRequestModel)
         {
             return await _userService.ConfirmUserEmail(emailConfirmRequestModel);
+        }
+
+        [Authorize]
+        [HttpPost]
+        [Route(nameof(UploadAvatar))]
+        public async Task<bool> UploadAvatar(IFormFile file)
+        {
+            var userId = _claimsService.GetUserId();
+            if (userId == string.Empty)
+                return false;
+
+            return await _fileService.UploadAvatar(file, userId);
         }
     }
 }

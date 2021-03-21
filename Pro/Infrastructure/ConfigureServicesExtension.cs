@@ -7,7 +7,8 @@
     using Services.Claims;
     using Services.User;
     using Services.UserService;
-    using Pro.Services.Ban;
+    using Services.ManageUser;
+    using Pro.Services.File;
 
     public static class ConfigureServicesExtension
     {
@@ -16,10 +17,11 @@
             serviceCollection
                 .AddTransient<IIdentityService, IdentityServices>()
                 .AddTransient<IClaimsService, ClaimsServices>()
-                .AddTransient<IBanService, BanService>()
+                .AddTransient<IManageUserService, ManageUserService>()
                 .AddTransient<IUserService, UserService>()
                 .AddTransient<IEncryptor, Encryptor>()
-                .AddTransient<IEmailNotificationService, MailKitNotificationService>();
+                .AddTransient<IEmailNotificationService, MailKitNotificationService>()
+                .AddTransient<IFileService, FileService>();
             
             return serviceCollection;
         }

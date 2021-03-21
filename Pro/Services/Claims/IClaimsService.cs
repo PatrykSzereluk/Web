@@ -9,6 +9,6 @@ namespace Pro.Services.Claims
     {
 
         bool CheckUserId(int id);
-
+        string GetUserId();
     }
 }

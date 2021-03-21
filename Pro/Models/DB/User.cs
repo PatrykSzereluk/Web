@@ -27,6 +27,7 @@ namespace Pro.Models.DB
         public bool EmailConfirmed { get; set; }
         public short RoleType { get; set; }
         public bool Block { get; set; }
+        public string AvatarName { get; set; }
 
         public virtual ICollection<ArchivalEmailAddress> ArchivalEmailAddresses { get; set; }
         public virtual ICollection<Ban> Bans { get; set; }

@@ -14,7 +14,7 @@
     using System.Security.Claims;
     using System.Text;
     using Microsoft.IdentityModel.Tokens;
-    using Pro.Services.UserService;
+    using UserService;
 
     public class IdentityServices : IIdentityService
     {

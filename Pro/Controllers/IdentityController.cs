@@ -4,11 +4,11 @@
     using Models.Identity;
     using Services.Identity;
     using System.Threading.Tasks;
-  
+
     public class IdentityController : ApiControllerBase
     {
         private readonly IIdentityService _identityService;
-        
+
         public IdentityController(IIdentityService identityService)
         {
             _identityService = identityService;
@@ -27,5 +27,7 @@
         {
             return await _identityService.Login(loginRequestModel);
         }
+
+
     }
 }

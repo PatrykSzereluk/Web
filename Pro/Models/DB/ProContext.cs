@@ -49,6 +49,10 @@ namespace Pro.Models.DB
                     .IsRequired()
                     .HasMaxLength(255);
 
+                entity.Property(e => e.IsActive)
+                    .IsRequired()
+                    .HasDefaultValueSql("((1))");
+
                 entity.Property(e => e.UserId).HasColumnName("UserID");
 
                 entity.HasOne(d => d.User)
@@ -61,6 +65,8 @@ namespace Pro.Models.DB
             modelBuilder.Entity<User>(entity =>
             {
                 entity.ToTable("Users", "Pro");
+
+                entity.Property(e => e.AvatarName).HasMaxLength(50);
 
                 entity.Property(e => e.ControlHash)
                     .IsRequired()

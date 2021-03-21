@@ -11,6 +11,7 @@ namespace Pro.Models.DB
         public int UserId { get; set; }
         public byte BanReason { get; set; }
         public string Description { get; set; }
+        public bool? IsActive { get; set; }
 
         public virtual User User { get; set; }
     }

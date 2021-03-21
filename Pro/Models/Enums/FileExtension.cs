@@ -5,11 +5,11 @@ using System.Threading.Tasks;
 
 namespace Pro.Models.Enums
 {
-    public enum RoleType
+
+    public enum ImageExtension
     {
-        None = 0,
-        User = 1,
-        Admin = 2,
-        SuperAdmin = 3
+        Jpg = 0,
+        Png = 1
     }
+
 }

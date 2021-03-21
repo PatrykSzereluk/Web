@@ -1,3 +1,7 @@
+using System.IO;
+using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.FileProviders;
+
 namespace Pro
 {
     using System.Text;
@@ -85,6 +89,13 @@ namespace Pro
             app.UseAuthentication();
 
             app.UseAuthorization();
+
+            app.UseStaticFiles();
+            app.UseStaticFiles(new StaticFileOptions()
+            {
+                FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), "Res")),
+                RequestPath = new PathString("/Res")
+            });
 
             app.UseEndpoints(endpoints =>
             {

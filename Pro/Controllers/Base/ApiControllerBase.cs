@@ -1,7 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
-
-namespace Pro
+﻿namespace Pro
 {
+    using Microsoft.AspNetCore.Mvc;
+
     [ApiController]
     [Route("[controller]")]
     public abstract class ApiControllerBase

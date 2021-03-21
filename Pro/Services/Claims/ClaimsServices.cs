@@ -17,24 +17,26 @@ namespace Pro.Services.Claims
             _httpContextAccessor = httpContextAccessor;
         }
 
-        public bool CheckUserId(int id)
+        public string GetUserId()
         {
             var identity = _httpContextAccessor?.HttpContext?.User.Identity as ClaimsIdentity;
 
             if (identity == null)
-                return false;
+                return string.Empty;
 
-            var idFromToken = identity.FindFirst(ClaimTypes.Name)?.Value;
+            return identity.FindFirst(ClaimTypes.Name)?.Value;
+        }
+
+        public bool CheckUserId(int id)
+        {
+            var idFromToken = GetUserId();
 
             if (string.IsNullOrEmpty(idFromToken))
             {
                 return false;
             }
 
-            if (idFromToken != id.ToString())
-                return false;
-
-            return true;
+            return idFromToken == id.ToString();
         }
     }
 }

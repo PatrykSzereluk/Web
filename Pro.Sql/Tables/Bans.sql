@@ -9,6 +9,7 @@ CREATE TABLE [Pro].[Bans](
 	[UserID] [int] NOT NULL,
 	[BanReason] [tinyint] NOT NULL,
 	[Description] [nvarchar](255) NOT NULL,
+	[IsActive] [bit] NOT NULL
  CONSTRAINT [PK_Bans] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC

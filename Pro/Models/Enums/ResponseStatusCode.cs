@@ -10,6 +10,4 @@
         PendingForChangePassword = 6,
         BlockAccount = 7
     }
-    
-    
 }
