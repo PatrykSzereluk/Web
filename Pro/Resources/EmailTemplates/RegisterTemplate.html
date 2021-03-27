@@ -4,26 +4,86 @@
     <meta charset="utf-8" />
     <title></title>
     <style type="text/css">
+        body{
+            background: #F2F2F2;
+            margin: 0;
+            font-family: 'Poppins';
+             
+        }
         .btn {
-            background-color: darksalmon;
+            color: #007AF3;
             cursor: pointer;
-            margin-left: 35%;
+            border-radius: 10px;
+            border: 1px solid #007AF3;
+            font-size: 1.3em;
+            margin: 0 0 2em 0;
         }
 
         .container {
-            width: 100%;
-            height: 40%;
-            background-color: darkgray;
+            text-align: center;
         }
+
+        .footer {
+            background: #20272E;
+            color: white;
+            padding: 1em;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .title {
+            margin: 1em 0;
+        }
+
+        .image{
+
+            width: 30px;
+            height: 30px;
+            margin: 1em 1em;
+        }
+        span
+        {
+            color: #007AF3;
+            font-weight: bold;
+        }
+
+        .yt {
+            width: 70px;
+        }
+
+        .message {
+            margin: 2em 1em;
+        }
+
     </style>
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body>
-<div class="container">
-    <h1> Witaj r-Login </h1>
-    <h2>Kliknij poniższy przycisk, aby potwiedzić E-mail</h2>
-    <form action="r-AddressSite/emailconfirmation/r-ControlHash/confirm/r-UserHash">
-        <input type="submit" value="Potwierdź" class="btn" />
-    </form>
-</div>
+    <div class="container">
+        <h1 class="title"> Witaj r-Login </h1>
+        <div class="message">
+
+            Twoje konto w portalu <span>Pro</span>Site zostało pomyślnie zalożone, postępuj zgodnie z dalszymi instrukcjami aby w cieszyć się pełnią funkcji.
+
+        </div>
+        <h2 class="message">Kliknij poniższy przycisk, aby potwiedzić E-mail</h2>
+        <form action="r-AddressSite/emailconfirmation/r-ControlHash/confirm/r-UserHash">
+            <input type="submit" value="Potwierdź" class="btn" />
+        </form>
+
+
+        <div class="social-links">
+            <img class="image" src="https://upload.wikimedia.org/wikipedia/commons/5/51/Facebook_f_logo_%282019%29.svg" alt="">
+            <img class="image" src="http://itl.net.pl/wp-content/uploads/2017/12/Glasgow2017_INSTAicon-1200x1199.png" alt="">
+            <img class="image yt" src="https://upload.wikimedia.org/wikipedia/commons/a/af/Youtube.png" alt="">
+            <img class="image" src="https://freepngimg.com/thumb/twitter/4-2-twitter-png-hd-thumb.png" alt="">
+        </div>
+
+        <footer class="footer">
+            <span>Pro</span>Site &copy Wszystkie prawa zastrzeżone
+        </footer>
+
+    </div>
 </body>
 </html>

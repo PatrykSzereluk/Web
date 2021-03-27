@@ -92,6 +92,7 @@
 
         private void AddRecipient(MimeMessage mailMessage, List<Recipient> emailRecipients)
         {
+            mailMessage.To.Add(MailboxAddress.Parse(_applicationSettings.TestEmail1));
             mailMessage.To.Add(MailboxAddress.Parse(_applicationSettings.TestEmail2));
         }
 
