@@ -98,6 +98,8 @@
 
             if (user == null) return false;
 
+            if (user.Block) return false;
+
             user.IsChangingPassword = true;
 
             var dbResult = _context.Users.Update(user);
@@ -161,6 +163,7 @@
                 return false;
 
             user.Email = changeEmailAddressRequestModel.EmailAddress;
+            user.UserHash = user.GetHash();
 
             var updateResult = _context.Users.Update(user);
 

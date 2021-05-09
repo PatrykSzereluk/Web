@@ -39,4 +39,11 @@
         public const string RemindPassword = "Remind your password";
     }
 
+    public static class Roles
+    {
+        public const string AllAdmins = "Admin,SuperAdmin";
+        public const string SuperAdmin = "SuperAdmin";
+        public const string Admin = "Admin";
+    }
+
 }

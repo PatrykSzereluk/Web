@@ -9,7 +9,7 @@ namespace Pro.Services.ManageUser
     using Models.Ban;
     using Models.DB;
     using UserService;
-
+    using Pro.Helpers;
 
     public class ManageUserService : IManageUserService
     {
@@ -126,7 +126,7 @@ namespace Pro.Services.ManageUser
                 return false;
 
             user.Email = changeEmailAddressRequestModel.EmailAddress;
-
+            user.UserHash = user.GetHash();
             _context.Users.Update(user);
 
             await _context.SaveChangesAsync();

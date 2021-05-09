@@ -36,10 +36,15 @@
         }
         private void FillCustomData(Email email, Dictionary<string, string> customData)
         {
-            Parallel.ForEach(customData, item =>
+            //var z = Parallel.ForEach(customData, item =>
+            //{
+            //    email.Body = email.Body.Replace(item.Key, item.Value);
+            //});
+
+            foreach (var item in customData)
             {
                 email.Body = email.Body.Replace(item.Key, item.Value);
-            });
+            }
         }
 
         private async Task<Email> GetEmailTemplate(EmailTemplate emailTemplate)
@@ -72,28 +77,27 @@
         private async void PrepareAndSendMail(Email email)
         {
 
-            var mailMessage = new MimeMessage()
+            foreach (var item in email.Recipients)
             {
-                Body = new BodyBuilder()
+                var mailMessage = new MimeMessage()
                 {
-                    HtmlBody = email.Body
-                }.ToMessageBody(),
-                Subject = email.Subject
-            };
+                    Body = new BodyBuilder()
+                    {
+                        HtmlBody = email.Body
+                    }.ToMessageBody(),
+                    Subject = email.Subject
+                };
+
+
+                AddStandardEmailName(mailMessage);
+
+                mailMessage.To.Add(MailboxAddress.Parse(item.Email));
+
+                await _smtpClient.SendAsync(mailMessage);
+            }
 
             
-            AddStandardEmailName(mailMessage);
-
-            AddRecipient(mailMessage, email.Recipients);
-
-            await _smtpClient.SendAsync(mailMessage);
             await _smtpClient.DisconnectAsync(true);
-        }
-
-        private void AddRecipient(MimeMessage mailMessage, List<Recipient> emailRecipients)
-        {
-            mailMessage.To.Add(MailboxAddress.Parse(_applicationSettings.TestEmail1));
-            mailMessage.To.Add(MailboxAddress.Parse(_applicationSettings.TestEmail2));
         }
 
         private void AddStandardEmailName(MimeMessage mailMessage)
@@ -109,8 +113,10 @@
 
                 if (email is null) return false;
 
-                // todo test
-                email.Recipients = new List<Recipient> { new() { Email = _applicationSettings.MailToTest } };
+                email.Recipients = new List<Recipient> { 
+                    new() { Email = _applicationSettings.MailToTest },
+                    //new() { Email = _applicationSettings.TestEmail1 }
+                };
 
                 FillCustomData(email, customData);
 
