@@ -17,5 +17,6 @@ namespace Pro
         public string EmailName { get; set; }
         public string TestEmail1 { get; set; }
         public string TestEmail2 { get; set; }
+        public string TestEmail3 { get; set; }
     }
 }
